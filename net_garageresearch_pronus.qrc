@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/net/garageresearch/pronus">
+        <file>PApplication.qml</file>
+        <file>PCheckBox.qml</file>
+        <file>PComboBox.qml</file>
+        <file>PComboBoxDialog.qml</file>
+        <file>PContentRectangle.qml</file>
+        <file>PFileDialog.qml</file>
+        <file>PHeader.qml</file>
+        <file>PSideMenu.qml</file>
+        <file>PKnob.qml</file>
+        <file>PLabel.qml</file>
+        <file>PLabeledSlider.qml</file>
+        <file>PLineEdit.qml</file>
+        <file>PModalDialog.qml</file>
+        <file>PModalDialogs.qml</file>
+        <file>PMessageBox.qml</file>
+        <file>PNotifications.qml</file>
+        <file>PNotificationBar.qml</file>
+        <file>PPage.qml</file>
+        <file>PPageStack.qml</file>
+        <file>PPopover.qml</file>
+        <file>PPushButton.qml</file>
+        <file>PScrollBar.qml</file>
+        <file>PSplashScreen.qml</file>
+        <file>PStepSlider.qml</file>
+        <file>PSwitch.qml</file>
+        <file>PTabView.qml</file>
+        <file>PTheme.qml</file>
+        <file>PTimeLabel.qml</file>
+        <file>PTooltip.qml</file>
+        <file>FontAwesome.qml</file>
+        <file>resources/fontawesome-webfont.ttf</file>
+        <file>resources/weblysleekuisl.ttf</file>
+        <file>qmldir</file>
+    </qresource>
+</RCC>

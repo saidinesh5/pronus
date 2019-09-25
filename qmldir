@@ -1,0 +1,32 @@
+module net.garageresearch.pronus
+
+singleton FontAwesome 0.1 FontAwesome.qml
+singleton PTheme 0.1 PTheme.qml
+singleton PModalDialogs 0.1 PModalDialogs.qml
+singleton PNotifications 0.1 PNotifications.qml
+singleton PPageStack 0.1 PPageStack.qml
+
+PApplication 0.1 PApplication.qml
+PCheckBox 0.1 PCheckBox.qml
+PComboBox 0.1 PComboBox.qml
+PContentRectangle 0.1 PContentRectangle.qml
+PFileDialog 0.1 PFileDialog.qml
+PHeader 0.1 PHeader.qml
+PSideMenu 0.1 PSideMenu.qml
+PKnob 0.1 PKnob.qml
+PLabel 0.1 PLabel.qml
+PLabeledSlider 0.1 PLabeledSlider.qml
+PLineEdit 0.1 PLineEdit.qml
+PModalDialog 0.1 PModalDialog.qml
+PMessageBox 0.1 PMessageBox.qml
+PNotificationBar 0.1 PNotificationBar.qml
+PPage 0.1 PPage.qml
+PPopover 0.1 PPopover.qml
+PPushButton 0.1 PPushButton.qml
+PScrollBar 0.1 PScrollBar.qml
+PSplashScreen 0.1 PSplashScreen.qml
+PStepSlider 0.1 PStepSlider.qml
+PSwitch 0.1 PSwitch.qml
+PTabView 0.1 PTabView.qml
+PTimeLabel 0.1 PTimeLabel.qml
+PTooltip 0.1 PTooltip.qml

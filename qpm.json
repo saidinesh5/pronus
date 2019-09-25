@@ -1,0 +1,22 @@
+{
+  "name": "net.garageresearch.pronus",
+  "description": "",
+  "author": {
+    "name": "Dinesh Manajipet",
+    "email": "saidinesh5@gmail.com"
+  },
+  "repository": {
+    "type": "GITHUB",
+    "url": "https://bitbucket.org/saidinesh5/pronus-qml.git"
+  },
+  "version": {
+    "label": "0.0.1",
+    "revision": "",
+    "fingerprint": ""
+  },
+  "dependencies": [
+  ],
+  "license": "MIT",
+  "pri_filename": "net_garageresearch_pronus.pri",
+  "webpage": ""
+}
