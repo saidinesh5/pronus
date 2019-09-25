@@ -20,88 +20,110 @@
  *
  **/
 
-pragma Singleton
 import QtQuick 2.0
 
-ListModel {
-    id: model
+Item {
+    property int currentDialogId: 0
+    property var dialogs: ({}) // with dialog-entries: {dialogId: dialog}
 
     /**
-     * Contains something like:
-     *    ListElement{
-     *        componentPath: 'BMessageBox.qml'
-     *        properties: '{"dialogId": 0, "title": "Hello There", "message": "Howdy" }'
-     *    }
-     * Each ListElement has a callback function associated with it
-     */
-    property var callbacks: []
-    
-
-    /**
-     * Show the PMessageBox and calls the callback the function with the selected action
-     * properties:
-     *   string title: 'Hey'
-     *   string message: 'Your Message Here!'
-     *   var actions: ['OK']
-     */
-    function showMessageBox(properties, callback)
-    {
-        return showDialogBox('PMessageBox.qml', properties, callback)
-    }
-    
-    /**
-     * Show the file dialog box and callback the function with the selected file
-     * properties:
-     *   string title: 'Select File'
-     *   bool showPreviews: false
-     *   string folder: '/'
-     *   string nameFilters: directly specify the filetypes you want to fileter''
-     *   string fileTpeFilter: one of ['archive', 'audio','code', 'spreadsheet',
-     *                                 'picture', 'pdf', 'richtext', 'slideshow', 'text', 'video']
-     */
-    function showFileDialog(properties, callback)
-    {
-        return showDialogBox('PFileDialog.qml', properties, callback)
-    }
-
-    /**
-     * Show the file dialog box and callback function when done, with the result
-     * The dialog box must be a Component based on PModalDialog
-     * properties:
-     *   string title: 'Hey'
-     *   var actions: ['OK']
-     */
-    function showDialogBox(dialogSource, properties, callback)
-    {
-        if(properties === undefined)
+     * Creates a modal dialog pointed by the dialogSource qml file.
+     * For this functioanlity to work, the dialogSource MUST be an instance of PDialog component
+     * properties are the json that will be passed on to the dialogSource' component
+     * property must not contain a key called 'dialogId'
+     * One of the properties of the dialog can be 'dialogTag', which can be used to find your particular dialog
+     * eg. destroyDialogs('errorDialogs'), foreach('warningDialogs', function(dialog)(dialog.show()))
+     * callback is the callback function that will be called with the result,
+     * once the user finishes interacting with the dialog. (eg. confirms/dismisses and event)
+     **/
+    function showDialog(dialogSource, properties, callback) {
+        if (properties === undefined) {
             properties = {}
+        }
 
-        if(properties['dialogId'])
-        {
+        if (properties['dialogId']) {
             console.error('You cannot use the property name dialogId')
             return -1
         }
 
-        properties["dialogId"] = model.count
+        properties['dialogId'] = ++currentDialogId
+        properties['callback'] = callback
 
-        callbacks.push(callback)
-        model.append({ componentPath: dialogSource,
-                       properties: JSON.stringify(properties)} )
-        
-        return model.count - 1
+        var dialog
+        var component = Qt.createComponent(dialogSource)
+        var result = -1
+        if (component.status === Component.Ready) {
+            dialog = component.createObject(properties['parent']
+                                            ? properties['parent']
+                                            : parent,
+                                            properties)
+            result = dialog.dialogId
+            dialogs[result] = dialog
+        }
+        else {
+            console.error(component.errorString())
+        }
+
+        return result
     }
 
-    function returnDialog(index, result)
+    /**
+     * Destroy the dialog with the given dialogId
+     */
+    function destroyDialog(dialogId) {
+        if (dialogs[dialogId] === undefined) {
+            return false
+        }
+
+        dialogs[dialogId].destroy()
+        delete dialogs[dialogId]
+
+        return true
+    }
+
+    /**
+     * Destroys all dialogs with the given dialogTag and an optional callback test function
+     * If dialogTag is empty, it destroys all dialogs
+     * returns the number of dialogs that are destroyed
+     */
+    function destroyDialogs(dialogTag, callback) {
+        if (typeof callback !== 'function') {
+            callback = function(d) { return true }
+        }
+
+        var dialogIdsToDestroy = []
+
+        for (var dialogId in dialogs) {
+            var dialog = dialogs[dialogId]
+            if (!dialogTag
+                || (dialog.dialogTag === dialogTag
+                    && callback(dialog))) {
+                dialogIdsToDestroy.push(dialogId)
+            }
+        }
+
+        for (var d in dialogIdsToDestroy) {
+            destroyDialog(d)
+        }
+
+        return dialogIdsToDestroy.length
+    }
+
+    /**
+     * Calls the callback function with every dialog whose dialogTag is dialogTag
+     */
+    function forEach(dialogTag, callback)
     {
-        if(index < 0 || index >= callbacks.length)
-            return False
+        if (callback === undefined) {
+            return
+        }
 
-        var callback = callbacks[index]
-
-        callbacks.splice(index,1)
-        model.remove(index)
-
-        if(callback !== undefined)
-            callback(result)
+        for (var dialogId in dialogs) {
+            var dialog = dialogs[dialogId]
+            if (!dialogTag
+                || dialogTag === dialog.dialogTag) {
+                callback(dialog)
+            }
+        }
     }
 }

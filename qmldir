@@ -2,7 +2,6 @@ module net.garageresearch.pronus
 
 singleton FontAwesome 0.1 FontAwesome.qml
 singleton PTheme 0.1 PTheme.qml
-singleton PModalDialogs 0.1 PModalDialogs.qml
 singleton PNotifications 0.1 PNotifications.qml
 singleton PPageStack 0.1 PPageStack.qml
 

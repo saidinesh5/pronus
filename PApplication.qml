@@ -47,6 +47,9 @@ Item {
 
     Loader {
         id: homePage
+
+        property var gDialogs: gDialogs
+
         anchors.top: header.bottom
         anchors.bottom: parent.bottom
         anchors.right: sideMenu.left
@@ -58,6 +61,9 @@ Item {
         model: PPageStack
         delegate: Loader {
             id: page
+
+            property var gDialogs: gDialogs
+
             visible: index === PPageStack.count - 1
             anchors.fill: parent
             anchors.topMargin: header.height
@@ -116,13 +122,5 @@ Item {
         anchors.topMargin: header.height
     }
 
-    Repeater {
-        id: dialogBoxes
-        model: PModalDialogs
-        delegate: Loader {
-            id: dialogLoader
-            anchors.fill: parent
-            Component.onCompleted: setSource(componentPath, JSON.parse(properties))
-        }
-    }
+    PModalDialogs { id: gDialogs }
 }

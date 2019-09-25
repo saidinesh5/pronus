@@ -119,13 +119,14 @@ Window {
                         id: openFileButton
                         icon: FontAwesome.icon.folder_open
                         iconPointSize: PTheme.iconSizeNormal
-                        onClicked: PModalDialogs.showFileDialog( {
-                                              'title': 'Select an image...',
-                                              'fileTypeFilter': 'picture',
-                                              'showPreviews': true
-                                               },
-                                               function(result) { pageAcquired(result) })
-        }
+                        onClicked: gDialogs.showDialog('PFileDialog.qml',
+                                                       {
+                                                           'title': 'Select an image...',
+                                                           'fileTypeFilter': 'picture',
+                                                           'showPreviews': true
+                                                       },
+                                                       function(result) { PNotifications.postNotification('info', 'Selected: ' + result) })
+                    }
                 }
             }
 

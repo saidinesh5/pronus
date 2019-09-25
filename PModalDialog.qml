@@ -29,9 +29,29 @@ Item {
     visible: false
 
     readonly property int dialogId: 0
+    property string dialogTag: ''
+    property var callback: null
     property string title: 'Hello There'
 
     signal done(var result)
+
+    anchors.fill: parent
+
+    function requestDestruction()
+    {
+        done({})
+    }
+
+    onDone:
+    {
+        if (callback
+            && typeof callback === 'function')
+        {
+            callback(result)
+        }
+
+        gDialogs.destroyDialog(dialogId)
+    }
 
     Rectangle {
         id: translucentBackground
@@ -49,8 +69,14 @@ Item {
     }
     
     z: PTheme.raisedZValue
-    
-    onDone: PModalDialogs.returnDialog(dialogId, result)
 
     Component.onCompleted: visible = true
+    Component.onDestruction:
+    {
+        //Ugly but meh
+        if (gDialogs.dialogs[dialogId])
+        {
+            delete gDialogs.dialogs[dialogId]
+        }
+    }
 }
